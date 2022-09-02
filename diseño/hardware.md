@@ -8,13 +8,13 @@
     
     <img src="img/rpizerow.webp" width="350"/>    
     
-- ### BMP280
+- ### GY91 (BMP280 + MPU9250)
 
-    <https://www.bosch-sensortec.com/products/environmental-sensors/pressure-sensors/bmp280/>
-
-    Sensor de presión barométrica y temperatura.
+    <https://electropeak.com/learn/interfacing-gy-91-9-axis-mpu9250-bmp280-module-with-arduino/>
     
-    <img src="img/bmp280.jpg" width="350"/>
+    Combinación de sensores, el MPU9250 que trabaja como acelerómetro, giroscopio y magnetómetro, y el BMP280 sensor de presión barométrica
+    
+    <img src="img/gy-91.jpg" width="350"/>
     
 - ### HDC1080
 
@@ -24,15 +24,6 @@
     
     <img src="img/hdc1080.webp" width="350"/>
     
-   
-- ### MPU9250
-
-    <https://invensense.tdk.com/products/motion-tracking/9-axis/mpu-9250/>
-    
-    Acelerómetro, giroscopio y magnetómetro
-    
-    <img src="img/mpu9250.webp" width="350"/>
-    
 - ### NEO6M
 
     <https://www.u-blox.com/en/product/neo-6-series>
@@ -40,3 +31,17 @@
     Módulo GPS
     
     <img src="img/neo6m.jfif" width="350"/>
+
+- ### RFM95W LoRa 915 MHz
+
+    <https://www.adafruit.com/product/3072>
+    
+    Transmisor? en radio frecuencia
+    
+    Este es el único modulo que tengo dudas, no se nada de transmisiones por radio y según el link de arriba adafruit vende almenos 4 tipos distintos de lo mismo.
+    
+    Podrían haber más pistas aquí
+    
+    <https://github.com/Octa-Aerospace/OctaSat/blob/main/modules/transceiver.py>
+    
+    <img src="img/lora.jpg" width="350">
