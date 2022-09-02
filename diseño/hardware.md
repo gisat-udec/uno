@@ -1,5 +1,7 @@
 # Hardware CANSAT
 
+## Placas y circuitos integrados
+
 - ### Raspberry Pi Zero W
 
     <https://www.raspberrypi.com/products/raspberry-pi-zero-w/>
@@ -45,3 +47,18 @@
     <https://github.com/Octa-Aerospace/OctaSat/blob/main/modules/transceiver.py>
     
     <img src="img/lora.jpg" width="350">
+    
+- ### DM13 Step up 5V
+
+    <https://solectroshop.com/es/convertidor-dc-a-dc-step-up/1619-modulo-de-alimentacion-5-v-con-salida-2a-paso-arriba-dm13.html>
+    
+    Amplificador de voltaje, de los 2.9v - 3.7v de la batería tipo 18650 hasta 5v requeridos por el Raspberry
+    
+    <img src="img/dm13.jpg" width="350">
+    
+    
+## Componentes sencillos
+
+- ### Buzzer
+
+- ### Portapila 18650
