@@ -1,4 +1,4 @@
-# Hardware
+# Hardware CANSAT
 
 - ### Raspberry Pi Zero W
 
