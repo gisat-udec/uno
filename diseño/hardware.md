@@ -25,8 +25,18 @@
     <img src="img/hdc1080.webp" width="350"/>
     
    
-    
-- hdc1080
-- mpu9250
-- neo6m
+- ### MPU9250
 
+    <https://invensense.tdk.com/products/motion-tracking/9-axis/mpu-9250/>
+    
+    Acelerómetro, giroscopio y magnetómetro
+    
+    <img src="img/mpu9250.webp" width="350"/>
+    
+- ### NEO6M
+
+    <https://www.u-blox.com/en/product/neo-6-series>
+    
+    Módulo GPS
+    
+    <img src="img/neo6m.jfif" width="350"/>
