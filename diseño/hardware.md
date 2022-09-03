@@ -62,3 +62,12 @@
 - ### Buzzer
 
 - ### Portapila 18650
+
+# Hardware Estación en tierra
+
+???
+
+# Hardware extra
+
+- ### Cargador de pilas 18650
+    Ojala algún modelo con funciones de seguridad, trabajar con baterías puede ser peligroso
