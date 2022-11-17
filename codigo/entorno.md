@@ -16,7 +16,7 @@ En Windows recomiendo instalar *Windows Terminal* https://apps.microsoft.com/sto
 
 Para verificar que el raspberry esta conectado a la red y que la ip anotada esta bien, toca conectarse por SSH de esta forma.
 
-![](img/ssh.png)
+![](img/ssh.PNG)
 
 Si sale bien va a pedir la clave que es la misma *raspberry* y conectarse.
 
