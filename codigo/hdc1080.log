@@ -1,0 +1,23 @@
+12-15 12:26 ecomet.hdc1080 INFO     Start logging ...
+12-15 12:26 ecomet.hdc1080 INFO     SW Reset correct
+12-15 12:26 ecomet.hdc1080 INFO     Battery > 2.4V, correct
+12-15 12:26 ecomet.hdc1080 INFO     Write CONF register correct
+12-15 12:26 ecomet.hdc1080 INFO     SERIAL Read correct
+12-15 12:26 ecomet.hdc1080 INFO     SER ID: 0239-461F-E780
+12-15 12:26 ecomet.hdc1080 INFO     MANUFACTURER Read correct
+12-15 12:26 ecomet.hdc1080 INFO     MAN ID: 5449
+12-15 12:26 ecomet.hdc1080 INFO     DEVICE Read correct
+12-15 12:26 ecomet.hdc1080 INFO     DEV ID: 1050
+12-15 12:26 ecomet.hdc1080 INFO     write_invoke TEMP mask
+12-15 12:26 ecomet.hdc1080 INFO     Measured Temperate BOTH:      31.60 ℃
+12-15 12:26 ecomet.hdc1080 INFO     Measured Humidity BOTH:      36.08 %
+12-15 12:26 ecomet.hdc1080 INFO     SW Reset correct
+12-15 12:26 ecomet.hdc1080 INFO     Write CONF register correct
+12-15 12:26 ecomet.hdc1080 INFO     write_invoke TEMP mask
+12-15 12:26 ecomet.hdc1080 INFO     Measured Temperate IND:      31.61 ℃
+12-15 12:26 ecomet.hdc1080 INFO     write_invoke HUMDT mask
+12-15 12:26 ecomet.hdc1080 INFO     Measured Humidity IND:      36.08 %
+12-15 12:26 ecomet.hdc1080 INFO     SW Reset correct
+12-15 12:26 ecomet.hdc1080 INFO     Battery > 2.4V, correct
+12-15 12:26 ecomet.hdc1080.reglist INFO     write_invoke TEMP mask
+12-15 12:26 ecomet.hdc1080.reglist INFO     write_invoke HUMDT mask
