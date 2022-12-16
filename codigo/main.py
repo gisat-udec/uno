@@ -1,13 +1,15 @@
+import time
+
 from gpsdclient import GPSDClient
 from ecomet_i2c_sensors.hdc1080 import hdc1080
 from imusensor.MPU9250 import MPU9250
 
 import numpy as np
+import os
 from queue import Queue
 import select
 import socket
 import threading
-import time
 import smbus
 
 start = time.time()
@@ -16,7 +18,11 @@ start = time.time()
 clients = []
 def socket_loop(ping_queue, state_queue):
     server = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
-    server.bind(("192.168.2.108", 20001))
+    try:
+        print("gonna bind")
+        print(server.bind(("", 20001)))
+    except Exception as e:
+        print(e)
     while True:
         # Pings
         server.setblocking(0)
