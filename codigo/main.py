@@ -2,6 +2,7 @@ from gpsdclient import GPSDClient
 from ecomet_i2c_sensors.hdc1080 import hdc1080
 from imusensor.MPU9250 import MPU9250
 
+import numpy as np
 from queue import Queue
 import select
 import socket
@@ -19,7 +20,7 @@ def socket_loop(ping_queue, state_queue):
     while True:
         # Pings
         server.setblocking(0)
-        ready = select.select([server], [], [], 0.05)
+        ready = select.select([server], [], [], 0.01)
         if ready[0]:
             res = server.recvfrom(1024)
             address = res[1]
@@ -79,6 +80,7 @@ while True:
     (temp, hmdt, ret) = hdc.both_measurement()
     imu.readSensor()
     imu.computeOrientation()
+    accel = np.sqrt(imu.AccelVals.dot(imu.AccelVals))
     try:
         gps = gps_queue.get_nowait()
     except: 
@@ -102,7 +104,7 @@ while True:
     clients = list(filter(lambda client: client[1] + 30 > now, clients))
     # Enviar datos a clientes
     state_queue.queue.clear()
-    state_queue.put([clients, [now - start, gps[0], gps[1], imu.roll, imu.pitch, temp, hmdt]])
+    state_queue.put([clients, [now - start, gps[0], gps[1], accel, imu.roll, imu.pitch, temp, hmdt]])
 
     #print(clients)
-    time.sleep(0.1)
+    time.sleep(0.02)
