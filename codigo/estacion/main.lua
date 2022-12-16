@@ -1,7 +1,7 @@
 print("prueba de la consola")
 
 local socket = require "socket"
-local address, port = "192.168.2.108", 20001
+local address, port = "192.168.4.1", 20001
 
 local startTime = love.timer.getTime()
 local pingInterval = 10
