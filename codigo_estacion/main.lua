@@ -19,6 +19,8 @@ local protocol = {
 }
 
 local value = {0, 0, 0, 0, 0, 0, 0, 0}
+local accelHistory = {0}
+local accelHistorySize = 120
 
 -- JUEGO DE LA PELOTA -- 
 local rectAngle = 0
@@ -31,6 +33,13 @@ local ballInterval = 5
 local ballEntities = {}
 
 function love.load()
+    -- GRAFICOS--
+    love.graphics.setBackgroundColor(255, 255, 255)
+    gfxDegree = love.graphics.newImage("degree.jpg")
+    gfxHumid = love.graphics.newImage("humidity.jpg")
+    gfxAccel = love.graphics.newImage("accel.png")
+    gfxGPS = love.graphics.newImage("gps.png")
+    -- CONEXIÓN --
     udp = socket.udp()
     udp:settimeout(0)
     udp:setpeername(address, port)
@@ -41,6 +50,7 @@ function love.load()
     b2RectBody = love.physics.newBody(b2World, rectX, rectY, "dynamic")
     b2RectShape = love.physics.newRectangleShape(rectWidth, rectHeight)
     b2RectFixture = love.physics.newFixture(b2RectBody, b2RectShape)
+    b2RectFixture:setRestitution(0.9)
     b2RectBody:setBullet(true)
     ballSpawn()
 end
@@ -61,13 +71,18 @@ function love.update(dt)
                 value[i] = tonumber(item)
                 i = i + 1
             end
+            table.insert(accelHistory, value[4])
+            if #accelHistory > accelHistorySize then
+                table.remove(accelHistory, 1)
+            end
         end
     until not data
     -- JUEGO DE LA PELOTA --
     x, y = b2RectBody:getPosition()
     a = b2RectBody:getAngle()
-    b2RectBody:applyAngularImpulse(a - value[5])
     b2RectBody:setLinearVelocity(0, 0)
+    
+    b2RectBody:setAngularVelocity((-value[5] - math.deg(a))/7)
     b2RectBody:setPosition(rectX, rectY)
     b2World:update(dt)
     
@@ -76,34 +91,67 @@ function love.update(dt)
         ballSpawn()
         ballTimer = 0
     end
+    ballClear()
 end
 
 function love.draw()
+    love.graphics.setColor(0, 0, 0)
     love.graphics.print("-- Sensores --", 100, 100)
     for i, v in ipairs(value) do
-        love.graphics.print(protocol[i] .. ": " .. value[i], 100, 100 + i * 12)
+        if i ~= 1 then
+            love.graphics.print(protocol[i] .. ": " .. value[i], 100, 100 + (i-1) * 12)
+        end
     end
-    -- JUEGO DE PELOTA --
-    love.graphics.push()
-    love.graphics.translate(rectX, rectY)
-    love.graphics.rotate(math.rad(value[5]))
-    love.graphics.translate(-rectX, -rectY)
-    love.graphics.rectangle("fill", rectX - rectWidth / 2, rectY - rectHeight / 2, rectWidth, rectHeight)
-    love.graphics.pop()
+    
+    -- SENSOR PITCH Y ROLL
+    pitch = -math.rad(value[6])
+    roll = -math.rad(value[5])
+    love.graphics.print("Pitch", 700, 30, 0, 2, 2)
+    love.graphics.circle("line", 800, 100, 60)
+    love.graphics.line(800, 100, 800+math.cos(pitch)*60, 100+math.sin(pitch)*60)
+    love.graphics.print(tonumber(string.format("%.3f", math.deg(pitch))), 800+math.cos(pitch)*60, 100+math.sin(pitch)*60)
+    love.graphics.print("Roll", 900, 30, 0, 2, 2)
+    love.graphics.circle("line", 1000, 100, 60)
+    love.graphics.line(1000, 100, 1000+math.cos(roll)*60, 100+math.sin(roll)*60)
+    love.graphics.print(tonumber(string.format("%.3f", math.deg(roll))), 1000+math.cos(roll)*60, 100+math.sin(roll)*60)
+    
+    -- ACELERACIÓN --
+    accel = value[4]
+    maxAccel = math.max(unpack(accelHistory))
+    love.graphics.setColor(255, 255, 255)
+    love.graphics.draw(gfxAccel, 360, 130, 0, 0.4, 0.4)
+    love.graphics.setColor(0, 0, 0)
+    love.graphics.print(string.format("%.2f", accel / 10) .. "g", 400, 250, 0, 2, 2)
+    love.graphics.setColor(255, 0, 0)
+    love.graphics.print(string.format("%.2f", maxAccel / 10) .. "g", 400, 275, 0, 2, 2)
+    love.graphics.setColor(0, 0, 0)
+    
+    -- TEMPERATURA Y HUMEDAD --
+    temp = value[7]
+    hmdt = value[8]
+    love.graphics.setColor(255, 255, 255)
+    love.graphics.draw(gfxDegree, 290, -10, 0, 0.2, 0.2)
+    love.graphics.draw(gfxHumid, 480, -10, 0, 0.2, 0.2)
+    love.graphics.setColor(0, 0, 0)
+    love.graphics.print(string.format("%.1f", temp) .. " °C", 300, 100, 0, 2, 2)
+    love.graphics.print(string.format("%.1f", hmdt) .. "%", 500, 100, 0, 2, 2)
 
+    -- GPS --
+    love.graphics.setColor(255, 255, 255)
+    love.graphics.draw(gfxGPS, 1050, 320, 0, 0.2, 0.2)
+    love.graphics.setColor(0, 0, 0)
+    love.graphics.print("Latitud: " .. value[2], 800, 350, 0, 2, 2)
+    love.graphics.print("Longitud: " .. value[3], 800, 400, 0, 2, 2)
+
+    -- JUEGO DE PELOTA --
     x, y = b2RectBody:getPosition()
     a = b2RectBody:getAngle()
-
     love.graphics.push()
-    love.graphics.setColor(255, 0, 0)
     love.graphics.translate(rectX, rectY)
     love.graphics.rotate(a)
     love.graphics.translate(-rectX, -rectY)
-    love.graphics.rectangle("fill", x - rectWidth / 2, y - rectHeight / 2, rectWidth, rectHeight)
-    love.graphics.setColor(255, 255, 255)
+    love.graphics.rectangle("line", x - rectWidth / 2, y - rectHeight / 2, rectWidth, rectHeight)
     love.graphics.pop()
-
-    
     for i, ball in ipairs(ballEntities) do
         x, y = ball.body:getPosition()
         love.graphics.circle("fill", x, y, 30)
@@ -115,10 +163,10 @@ function pingSend()
 end
 
 function ballSpawn()
-    b2Body = love.physics.newBody(b2World, 400, 300, "dynamic")
+    b2Body = love.physics.newBody(b2World, math.random(300, 400), 0, "dynamic")
     b2Shape = love.physics.newCircleShape(30)
     b2Fixture = love.physics.newFixture(b2Body, b2Shape)
-    b2Fixture:setRestitution(0.9)
+    b2Fixture:setRestitution(0.5)
     local ball = {
         body = b2Body, 
         shape = b2Shape,
@@ -127,10 +175,13 @@ function ballSpawn()
     table.insert(ballEntities, ball)
 end
 
-function math.average(t)
-    local sum = 0
-    for _,v in pairs(t) do -- Get the sum of all numbers in t
-      sum = sum + v
+function ballClear()
+    for i = #ballEntities, 1, -1 do
+        local ball = ballEntities[i]
+        local x, y = ball.body:getPosition()
+        if y > 1000 then
+            ball.body:destroy()
+            table.remove(ballEntities, i)
+        end
     end
-    return sum / #t
-  end
+end
