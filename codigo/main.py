@@ -104,7 +104,7 @@ while True:
     clients = list(filter(lambda client: client[1] + 30 > now, clients))
     # Enviar datos a clientes
     state_queue.queue.clear()
-    state_queue.put([clients, [now - start, gps[0], gps[1], accel, imu.roll, imu.pitch, temp, hmdt]])
+    state_queue.put([clients, [0, gps[0], gps[1], accel, imu.roll, imu.pitch, temp, hmdt]])
 
     #print(clients)
     time.sleep(0.02)
